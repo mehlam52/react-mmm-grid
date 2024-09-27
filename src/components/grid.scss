@@ -1,0 +1,123 @@
+.my-grid-container {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  overflow: auto;
+  background: #edeef3;
+  padding-bottom: 150px;
+  border: 2px solid lightgrey;
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    thead tr {
+      position: sticky;
+      top: -1px;
+      background-color: white;
+      border: 2px solid lightgray;
+      z-index: 10;
+    }
+
+    th,
+    td {
+      border: 2px solid lightgray;
+      // color: #525f7f;
+      color: black;
+      height: 24px;
+      padding: 2px;
+      font-size: 16px;
+    }
+    th {
+      font-weight: 600;
+      padding: 5px;
+    }
+    tbody .checked {
+      background: #cde2eca8;
+    }
+
+    td {
+      input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .focused {
+        background: #bfbeecc7;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        z-index: 5;
+      }
+      div[class*="control"] {
+        border: none;
+        min-height: 10px;
+        background: transparent;
+        box-shadow: none;
+
+        div[class*="indicatorContainer"]:first-of-type {
+          display: none;
+        }
+      }
+      div[class*="Input2"] {
+        padding: 0;
+        margin: 0;
+        color: black;
+      }
+      div[class*="ValueContainer2"] {
+        padding: 0px;
+      }
+      div[class*="indicatorContainer"] {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      div[class*="select__clear-indicator"] {
+        display: none;
+      }
+      div[class*="IndicatorsContainer2"] {
+        div[class*="indicatorContainer"]:first-of-type {
+          display: none;
+        }
+      }
+      div[class*="is-disabled"] {
+        background-color: transparent;
+      }
+      div[class*="singleValue"] {
+        color: black;
+        font-weight: 500;
+      }
+      span[class*="indicatorSeparator"] {
+        display: none;
+      }
+    }
+
+    .grid-delete {
+      cursor: pointer;
+      color: #af0c0c;
+      display: flex;
+      justify-content: center;
+
+      .icon {
+        border-radius: 50%;
+        width: 27px;
+        height: 27px;
+        padding: 5px;
+
+        &:hover {
+          background-color: rgb(175, 12, 12, 0.2);
+        }
+      }
+    }
+  }
+}
