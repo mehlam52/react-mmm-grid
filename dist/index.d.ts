@@ -33,4 +33,4 @@ type MMMGridProps = {
 };
 declare const MMMGrid: ({ rows, columns, height, deleteRows, handleChange, handleDelete, disabled, rowDisabled, idPrefix, setActiveGridRow, setSelectedRows, }: MMMGridProps) => react_jsx_runtime.JSX.Element;
 
-export { MMMGrid as default };
+export { type MMMGridColumnProps, MMMGrid as default };
