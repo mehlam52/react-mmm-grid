@@ -4,18 +4,19 @@
 [![types](https://img.shields.io/npm/types/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 <!-- [![npm](https://img.shields.io/npm/dm/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid)
 [![npm](https://img.shields.io/npm/dt/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid) -->
 
 `react-mmm-grid` is a highly customizable and performant grid component for React, designed to provide a desktop-like experience. It supports features like sorting, filtering, pagination, and more.
 
 <!-- link gif -->
+
 ![react-mmm-grid](./mmm-grid.gif)
 
-
 <!--Live Demo Link-->
-[Live Demo](https://react-mmm-grid.netlify.app/)
 
+## Live Demo : https://react-mmm-grid.netlify.app/
 
 ## Features
 
@@ -31,6 +32,7 @@ Install the package via npm:
 ```sh
 npm install react-mmm-grid
 ```
+
 Or via yarn:
 
 ```sh
@@ -128,7 +130,7 @@ function App() {
   ];
 
 
-  const [rows, setRows] = useState([{}]);
+  const [rows, setRows] = useState([{},{}]);
   const [activeGridRow, setActiveGridRow] = useState<any>();
 
   const handleGridChange = async (
@@ -145,7 +147,7 @@ function App() {
     }
     temp[rowIndex] = { ...temp[rowIndex], [name]: val };
 
-    if (rowIndex >= temp.length - 1) {
+    if (rowIndex >= temp.length - 2) {
       temp.push({});
     }
 
@@ -158,6 +160,7 @@ function App() {
       temp[indexes[i]] = {};
     }
     temp = temp.filter((x: any) => x.name);
+    temp.push({});
     temp.push({});
 
     setRows(temp);
@@ -196,16 +199,16 @@ export default App;
 
 ## Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| columns | `MMMGridColumnProps[]` | `[]` | The columns to display in the grid. |
-| rows | `any[]` | `[]` | The rows to display in the grid. |
-| height | `number` | `300` | The height of the grid. |
-| handleChange | `(rowIndex: number, name: string, value: any, inputType?: "select" | "text") => void` | `() => {}` | The function to call when a cell value changes. |
-| deleteRows | `boolean` | `false` | Whether to show the delete rows button. |
-| handleDelete | `(indexes: number[]) => void` | `() => {}` | The function to call when the delete rows button is clicked. |
-| setActiveGridRow | `(row: any) => void` | `() => {}` | The function to call when a row is clicked. |
-| idPrefix | `string` | `""` | A unique prefix for the grid's IDs. |
+| Name             | Type                                                               | Default          | Description                                                  |
+| ---------------- | ------------------------------------------------------------------ | ---------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| columns          | `MMMGridColumnProps[]`                                             | `[]`             | The columns to display in the grid.                          |
+| rows             | `any[]`                                                            | `[]`             | The rows to display in the grid.                             |
+| height           | `number`                                                           | `300`            | The height of the grid.                                      |
+| handleChange     | `(rowIndex: number, name: string, value: any, inputType?: "select" | "text") => void` | `() => {}`                                                   | The function to call when a cell value changes. |
+| deleteRows       | `boolean`                                                          | `false`          | Whether to show the delete rows button.                      |
+| handleDelete     | `(indexes: number[]) => void`                                      | `() => {}`       | The function to call when the delete rows button is clicked. |
+| setActiveGridRow | `(row: any) => void`                                               | `() => {}`       | The function to call when a row is clicked.                  |
+| idPrefix         | `string`                                                           | `""`             | A unique prefix for the grid's IDs.                          |
 
 ## License
 
@@ -214,8 +217,3 @@ MIT
 ## Author
 
 Mehlam Hamid
-
-
-
-
-

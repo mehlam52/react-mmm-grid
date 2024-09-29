@@ -1,6 +1,6 @@
 {
   "name": "react-mmm-grid",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Desktop like grid component for React",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
