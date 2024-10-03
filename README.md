@@ -7,7 +7,7 @@
 <!-- [![npm](https://img.shields.io/npm/dm/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid)
 [![npm](https://img.shields.io/npm/dt/react-mmm-grid)](https://www.npmjs.com/package/react-mmm-grid) -->
 
-`react-mmm-grid` is a highly customizable and performant grid component for React, designed to provide a desktop-like experience. It supports features like sorting, filtering, pagination, and more.
+`react-mmm-grid` is a highly customizable and performant grid component for React, designed to provide a desktop-like experience. It supports features like custom rendering, keyboard navigation and multiple column types.
 
 <!-- link gif -->
 ![react-mmm-grid](./mmm-grid.gif)
