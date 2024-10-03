@@ -366,11 +366,20 @@ const MMMGrid = ({
     value: any,
     rowIndex: number,
     col: any,
-    inputType?: "select" | "text"
+    inputType?: "select" | "text",
+    colIndex?: number
   ) => {
     let val = value;
     if (inputType == "select") {
       val = value?.value;
+
+        // remove focus from current select
+        const element = document.getElementById(
+          `${idPrefix}-${rowIndex}-${colIndex}`
+      ); 
+      const inputElement = element?.querySelector('input');
+
+      inputElement?.blur();
     }
     if (
       val == "" &&
@@ -584,7 +593,7 @@ const MMMGrid = ({
                                     value: row[col.name],
                                   }}
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select");
+                                    handleBlur(x, rowIndex, col, "select",colIndex);
                                   }}
                                 />
                               ) : col.selectType === "creatable" ? (
@@ -600,7 +609,7 @@ const MMMGrid = ({
                                       : rowDisabled(row) || disabled
                                   }
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select");
+                                    handleBlur(x, rowIndex, col, "select",colIndex);
                                   }}
                                   id={`gridcell-${rowIndex}-${colIndex}`}
                                   isClearable
@@ -623,7 +632,7 @@ const MMMGrid = ({
                                       : rowDisabled(row) || disabled
                                   }
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select");
+                                    handleBlur(x, rowIndex, col, "select",colIndex);
                                   }}
                                 />
                               )}
