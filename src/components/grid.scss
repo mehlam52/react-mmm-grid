@@ -120,5 +120,12 @@
         }
       }
     }
+
+    .column-resize-handle {
+      &:hover {
+        background-color: #999 !important;
+      }
+    }
   }
 }
+

@@ -73,11 +73,13 @@ const MMMGrid = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
+  const resizeRef = useRef<{ colIndex: number; startX: number; startWidth: number } | null>(null);
 
   // ================ usestate ==================
   const [focusedCell, setFocusedCell] = useState({ row: -1, col: -1 });
   const [tableData, setTableData] = useState<any>([{}]);
   const [initialized, setInitialized] = useState<boolean>(false);
+  const [columnWidths, setColumnWidths] = useState<Record<number, number>>({});
 
   // ================ useeffect ==================
   useEffect(() => {
@@ -317,6 +319,50 @@ const MMMGrid = ({
     };
   }, [focusedCell]);
 
+  // ================ column resize useeffect ==================
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!resizeRef.current) return;
+
+      const { colIndex, startX, startWidth } = resizeRef.current;
+      const diff = e.clientX - startX;
+      const newWidth = Math.max(50, startWidth + diff); // Minimum width of 50px
+
+      setColumnWidths((prev) => ({
+        ...prev,
+        [colIndex]: newWidth,
+      }));
+    };
+
+    const handleMouseUp = () => {
+      resizeRef.current = null;
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  const handleResizeStart = (
+    e: React.MouseEvent<HTMLDivElement>,
+    colIndex: number
+  ) => {
+    e.preventDefault();
+    const th = (e.target as HTMLElement).closest("th");
+    if (!th) return;
+
+    const startWidth = th.offsetWidth;
+    resizeRef.current = {
+      colIndex,
+      startX: e.clientX,
+      startWidth,
+    };
+  };
+
   useEffect(() => {
     if (rows.length > 0) {
       const temp = structuredClone(rows);
@@ -339,6 +385,39 @@ const MMMGrid = ({
       setTableData(temp);
     }
   }, [rows]);
+
+  // ================ initialize column widths useeffect ==================
+  useEffect(() => {
+    // Initialize column widths based on minWidth or table width
+    if (tableRef.current && Object.keys(columnWidths).length === 0) {
+      const widths: Record<number, number> = {};
+      const ths = tableRef.current.querySelectorAll("th");
+      let deleteRowsOffset = 0;
+
+      // Check if there's a delete rows column
+      if (!disabled && deleteRows && ths[0]) {
+        deleteRowsOffset = ths[0].offsetWidth;
+      }
+
+      let allColsHaveWidth = true;
+      columns.forEach((col, idx) => {
+        const actualIdx = !disabled && deleteRows ? idx + 1 : idx;
+        const th = ths[actualIdx];
+        
+        if (th && !col.hidden) {
+          widths[idx] = th.offsetWidth;
+        } else if (col.minWidth && !col.hidden) {
+          widths[idx] = col.minWidth;
+          allColsHaveWidth = false;
+        }
+      });
+
+      // Only set widths if we have valid measurements
+      if (allColsHaveWidth || Object.keys(widths).length > 0) {
+        setColumnWidths(widths);
+      }
+    }
+  }, [columns, disabled, deleteRows]);
 
   // ================ functions ==================
 
@@ -411,11 +490,15 @@ const MMMGrid = ({
 
   return (
     <div className="my-grid-container" style={{ height: height ? height : "" }}>
-      <table ref={tableRef}>
+      <table ref={tableRef} style={{ tableLayout: "fixed" }}>
         <thead>
           <tr>
             {!disabled && deleteRows && (
-              <th>
+              <th style={{
+                maxWidth:25,
+                minWidth:25,
+                width:25
+              }}>
                 <div className="grid-delete">
                   <div
                     onClick={() => {
@@ -451,11 +534,49 @@ const MMMGrid = ({
               <th
                 key={idx}
                 style={{
-                  minWidth: item.minWidth ? item.minWidth : "",
+                  width: columnWidths[idx]
+                    ? columnWidths[idx]
+                    : item.minWidth
+                    ? item.minWidth
+                    : 150,
                   display: item.hidden ? "none" : "",
+                  position: "relative",
+                  padding: 0,
+                  overflow: "hidden",
                 }}
               >
-                {item.title}
+                <div
+                  style={{
+                    padding: "5px",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {item.title}
+                </div>
+                <div
+                  onMouseDown={(e) => handleResizeStart(e, idx)}
+                  className="column-resize-handle"
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    top: 0,
+                    width: "6px",
+                    height: "100%",
+                    cursor: "col-resize",
+                    userSelect: "none",
+                    backgroundColor: "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor =
+                      "#999";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.backgroundColor =
+                      "transparent";
+                  }}
+                />
               </th>
             ))}
           </tr>
@@ -488,6 +609,11 @@ const MMMGrid = ({
                 <td
                   key={colIndex}
                   style={{
+                    width: columnWidths[colIndex]
+                      ? columnWidths[colIndex]
+                      : col.minWidth
+                      ? col.minWidth
+                      : 150,
                     display: col.hidden ? "none" : "",
                     background:
                       (col.disabled && col.disabled(row)) ||
@@ -495,6 +621,8 @@ const MMMGrid = ({
                       rowDisabled(row)
                         ? "#f0f0f0"
                         : "",
+                    padding: 0,
+                    overflow: "hidden",
                   }}
                 >
                   <div
@@ -508,7 +636,6 @@ const MMMGrid = ({
                       handleFocus(rowIndex, colIndex);
                     }}
                     style={{
-                      minWidth: col.minWidth,
                       minHeight: 30,
                       padding: "0 5px",
                       boxSizing: "border-box",
