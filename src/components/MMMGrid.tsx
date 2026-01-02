@@ -417,23 +417,6 @@ const MMMGrid = ({
             {!disabled && deleteRows && (
               <th>
                 <div className="grid-delete">
-                  {/* <MdDelete
-                                        onClick={() => {
-                                            let temp = [...tableData];
-                                            // temp = temp.filter((row: any) => !row.checked);
-                                            // setTableData(temp);
-
-                                            handleDelete(
-                                                temp
-                                                    .filter((row: any) => row.checked)
-                                                    .map((row) => {
-                                                        return tableData.indexOf(row);
-                                                    })
-                                            );
-                                        }}
-                                        className="icon"
-                                    /> */}
-
                   <div
                     onClick={() => {
                       const temp = [...tableData];
