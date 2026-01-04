@@ -69,7 +69,7 @@ function App() {
                 width: 35,
                 height: 35,
                 borderRadius: 25,
-                backgroundColor: "blue",
+                backgroundColor: "#1976d2",
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "auto",

@@ -525,18 +525,29 @@ const MMMGrid = ({
     <div className="my-grid-container" style={{ height: height ? height : "" }}>
       {enableSearch && (
         <div className="grid-search-container">
-          <input
-            type="text"
-            className="grid-search-input"
-            placeholder="Search all columns..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                setSearchQuery("");
-              }
-            }}
-          />
+          <div className="grid-search-input-wrapper">
+            <input
+              type="text"
+              className="grid-search-input"
+              placeholder="Search all columns..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  setSearchQuery("");
+                }
+              }}
+            />
+            {searchQuery && (
+              <button
+                className="grid-search-clear"
+                onClick={() => setSearchQuery("")}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
           {searchQuery && (
             <span className="grid-search-count">
               {filteredIndices.size} results

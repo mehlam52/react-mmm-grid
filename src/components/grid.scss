@@ -1,13 +1,19 @@
+:root {
+  --divider: #262b431f;
+  --text-primary: #262b43e6;
+  --text-secondary: #262b43b3;
+}
 .my-grid-container {
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
   overflow: auto;
-  background: #edeef3;
   padding-bottom: 150px;
-  border: 2px solid lightgrey;
+  background: #e9e9e961;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
 
   .grid-search-container {
-    position: sticky;
     top: 0;
     z-index: 20;
     background: white;
@@ -16,15 +22,27 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    min-width: min-content;
+    width: 100%;
+    box-sizing: border-box;
+
+    .grid-search-input-wrapper {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
 
     .grid-search-input {
       flex: 1;
       padding: 8px 12px;
+      padding-right: 40px;
       border: 2px solid #ccc;
       border-radius: 4px;
       font-size: 14px;
       font-family: "Roboto", sans-serif;
       transition: border-color 0.2s;
+      width: 100%;
 
       &:focus {
         outline: none;
@@ -37,13 +55,31 @@
       }
     }
 
-    .grid-search-count {
-      color: #666;
-      font-size: 14px;
-      white-space: nowrap;
+    .grid-search-clear {
+      position: absolute;
+      right: 8px;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 18px;
       padding: 4px 8px;
-      background: #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s;
       border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+
+      &:hover {
+        color: #333;
+        background: transparent;
+      }
+
+      &:active {
+        color: #000;
+      }
     }
   }
 
@@ -57,31 +93,36 @@
 
   table {
     width: 100%;
-    background: white;
+    background: #fff;
     border-collapse: collapse;
+
     thead tr {
       position: sticky;
-      top: -1px;
-      background-color: white;
-      border: 2px solid lightgray;
-      z-index: 10;
+      top: 0px;
+      background-color: #ededed;
+      border-bottom: 2px solid var(--divider);
+    }
+
+    .grid-search-container ~ table thead tr {
+      top: 57px;
     }
 
     th,
     td {
       border: 2px solid lightgray;
-      // color: #525f7f;
-      color: black;
-      height: 24px;
       padding: 2px;
-      font-size: 16px;
+      border-bottom: 1px solid var(--divider);
+      color: var(--text-primary);
+      height: 44px;
+      font-size: 14px;
     }
     th {
+      color: var(--text-secondary);
       font-weight: 600;
-      padding: 5px;
+      padding: 12px;
     }
     tbody .checked {
-      background: #cde2eca8;
+      background-color: #cde2eca8;
     }
 
     td {
@@ -89,14 +130,20 @@
         width: 100%;
         border: none;
         background: transparent;
-        font-size: 16px;
+        font-size: 14px;
+        color: var(--text-primary);
+
         &:focus {
           outline: none;
+        }
+
+        &::placeholder {
+          color: #262b4366;
         }
       }
 
       .focused {
-        background: #bfbeecc7;
+        border: 3px solid #4a90e2;
         height: 100%;
         display: flex;
         align-items: center;
@@ -113,9 +160,7 @@
         }
       }
       div[class*="Input2"] {
-        padding: 0;
-        margin: 0;
-        color: black;
+        color: var(--text-primary);
       }
       div[class*="ValueContainer2"] {
         padding: 0px;
@@ -136,7 +181,7 @@
         background-color: transparent;
       }
       div[class*="singleValue"] {
-        color: black;
+        color: var(--text-primary);
         font-weight: 500;
       }
       span[class*="indicatorSeparator"] {
@@ -146,28 +191,29 @@
 
     .grid-delete {
       cursor: pointer;
-      color: #af0c0c;
+      color: #ff4d49;
       display: flex;
       justify-content: center;
 
       .icon {
-        border-radius: 50%;
+        border-radius: 4px;
         width: 27px;
         height: 27px;
         padding: 5px;
         box-sizing: border-box;
+                transition: all 0.2s ease;
+
 
         &:hover {
-          background-color: rgb(175, 12, 12, 0.2);
+          background-color: rgba(244, 67, 54, 0.08);
         }
       }
     }
 
     .column-resize-handle {
       &:hover {
-        background-color: #999 !important;
+        background-color: var(--divider);
       }
     }
   }
 }
-
