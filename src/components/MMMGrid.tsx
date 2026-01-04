@@ -114,7 +114,7 @@ const MMMGrid = ({
     setFilteredIndices(matchingIndices);
   }, [searchQuery, tableData, enableSearch, columns]);
 
-  
+
   useEffect(() => {
         const handleKeyDown = (event: any) => {
       const { row, col } = focusedCell;
@@ -553,6 +553,7 @@ const MMMGrid = ({
                   maxWidth: 25,
                   minWidth: 25,
                   width: 25,
+                  boxSizing:"content-box"
                 }}
               >
                 <div className="grid-delete">
