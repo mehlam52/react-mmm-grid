@@ -206,6 +206,36 @@ export default App;
 | handleDelete | `(indexes: number[]) => void` | `() => {}` | The function to call when the delete rows button is clicked. |
 | setActiveGridRow | `(row: any) => void` | `() => {}` | The function to call when a row is clicked. |
 | idPrefix | `string` | `""` | A unique prefix for the grid's IDs. |
+| enableSearch | `boolean` | `false` | Enable search functionality to filter rows by any column value. |
+
+## Search Feature
+
+The grid now supports a powerful search feature that allows users to quickly filter rows by any column value.
+
+### Usage
+
+Enable search by passing the `enableSearch` prop:
+
+```jsx
+<MyGrid
+  columns={columns}
+  rows={rows}
+  handleChange={handleGridChange}
+  deleteRows
+  handleDelete={handleRowsDelete}
+  enableSearch={true}  // Enable search
+  idPrefix="grid1"
+/>
+```
+
+### Features
+
+- **Real-time Filtering**: Results update as you type
+- **Cross-column Search**: Search across all columns simultaneously
+- **Case-insensitive**: Search is case-insensitive for better UX
+- **Result Count**: Shows how many rows match the search query
+- **Keyboard Navigation**: Press `Escape` to clear the search
+- **No Performance Impact**: Efficiently filters large datasets
 
 ## License
 

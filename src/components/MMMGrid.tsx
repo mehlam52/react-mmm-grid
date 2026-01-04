@@ -54,6 +54,7 @@ type MMMGridProps = {
   rowDisabled?: (row: any) => boolean;
   setActiveGridRow?: any;
   setSelectedRows?: any;
+  enableSearch?: boolean;
 };
 
 const MMMGrid = ({
@@ -68,6 +69,7 @@ const MMMGrid = ({
   idPrefix = "gridcell",
   setActiveGridRow,
   setSelectedRows,
+  enableSearch = false,
 }: MMMGridProps) => {
   // ================ constants ==================
 
@@ -84,10 +86,37 @@ const MMMGrid = ({
   const [tableData, setTableData] = useState<any>([{}]);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [columnWidths, setColumnWidths] = useState<Record<number, number>>({});
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredIndices, setFilteredIndices] = useState<Set<number>>(new Set());
 
   // ================ useeffect ==================
+    useEffect(() => {
+    // Filter rows based on search query
+    if (!enableSearch || !searchQuery.trim()) {
+      setFilteredIndices(new Set());
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const matchingIndices = new Set<number>();
+
+    tableData.forEach((row: any, rowIndex: number) => {
+      const rowMatches = columns.some((col) => {
+        const cellValue = String(row[col.name] || "").toLowerCase();
+        return cellValue.includes(query);
+      });
+
+      if (rowMatches) {
+        matchingIndices.add(rowIndex);
+      }
+    });
+
+    setFilteredIndices(matchingIndices);
+  }, [searchQuery, tableData, enableSearch, columns]);
+
+  
   useEffect(() => {
-    const handleKeyDown = (event: any) => {
+        const handleKeyDown = (event: any) => {
       const { row, col } = focusedCell;
       if (row === -1 || col === -1) return;
       let newRow = row;
@@ -321,7 +350,7 @@ const MMMGrid = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("click", handleBlur);
     };
-  }, [focusedCell]);
+  }, [focusedCell, searchQuery, filteredIndices, enableSearch]);
 
   // ================ column resize useeffect ==================
   useEffect(() => {
@@ -494,6 +523,27 @@ const MMMGrid = ({
 
   return (
     <div className="my-grid-container" style={{ height: height ? height : "" }}>
+      {enableSearch && (
+        <div className="grid-search-container">
+          <input
+            type="text"
+            className="grid-search-input"
+            placeholder="Search all columns..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setSearchQuery("");
+              }
+            }}
+          />
+          {searchQuery && (
+            <span className="grid-search-count">
+              {filteredIndices.size} results
+            </span>
+          )}
+        </div>
+      )}
       <table ref={tableRef} style={{ tableLayout: "fixed" }}>
         <thead>
           <tr>
@@ -588,7 +638,13 @@ const MMMGrid = ({
           </tr>
         </thead>
         <tbody>
-          {tableData.map((row: any, rowIndex: number) => (
+          {tableData.map((row: any, rowIndex: number) => {
+            // Skip row if search is enabled and row doesn't match
+            if (enableSearch && searchQuery.trim() && !filteredIndices.has(rowIndex)) {
+              return null;
+            }
+
+            return (
             <tr key={rowIndex} className={row.checked ? "checked" : ""}>
               {!disabled && deleteRows && (
                 <td>
@@ -820,11 +876,13 @@ const MMMGrid = ({
                 </td>
               ))}
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
+
 };
 
 export default MMMGrid;

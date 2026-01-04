@@ -5,6 +5,48 @@
   background: #edeef3;
   padding-bottom: 150px;
   border: 2px solid lightgrey;
+
+  .grid-search-container {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: white;
+    padding: 12px;
+    border-bottom: 2px solid lightgray;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .grid-search-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: "Roboto", sans-serif;
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      }
+
+      &::placeholder {
+        color: #999;
+      }
+    }
+
+    .grid-search-count {
+      color: #666;
+      font-size: 14px;
+      white-space: nowrap;
+      padding: 4px 8px;
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+  }
+
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;

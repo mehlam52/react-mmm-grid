@@ -134,6 +134,7 @@ function App() {
             deleteRows
             handleDelete={handleRowsDelete}
             setActiveGridRow={setActiveGridRow}
+            enableSearch={true}
             idPrefix="grid1" // should be unique for each grid in the same page
           />
     </div>
