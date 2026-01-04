@@ -73,7 +73,11 @@ const MMMGrid = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const resizeRef = useRef<{ colIndex: number; startX: number; startWidth: number } | null>(null);
+  const resizeRef = useRef<{
+    colIndex: number;
+    startX: number;
+    startWidth: number;
+  } | null>(null);
 
   // ================ usestate ==================
   const [focusedCell, setFocusedCell] = useState({ row: -1, col: -1 });
@@ -403,7 +407,7 @@ const MMMGrid = ({
       columns.forEach((col, idx) => {
         const actualIdx = !disabled && deleteRows ? idx + 1 : idx;
         const th = ths[actualIdx];
-        
+
         if (th && !col.hidden) {
           widths[idx] = th.offsetWidth;
         } else if (col.minWidth && !col.hidden) {
@@ -452,11 +456,11 @@ const MMMGrid = ({
     if (inputType == "select") {
       val = value?.value;
 
-        // remove focus from current select
-        const element = document.getElementById(
-          `${idPrefix}-${rowIndex}-${colIndex}`
-      ); 
-      const inputElement = element?.querySelector('input');
+      // remove focus from current select
+      const element = document.getElementById(
+        `${idPrefix}-${rowIndex}-${colIndex}`
+      );
+      const inputElement = element?.querySelector("input");
 
       inputElement?.blur();
     }
@@ -494,11 +498,13 @@ const MMMGrid = ({
         <thead>
           <tr>
             {!disabled && deleteRows && (
-              <th style={{
-                maxWidth:25,
-                minWidth:25,
-                width:25
-              }}>
+              <th
+                style={{
+                  maxWidth: 25,
+                  minWidth: 25,
+                  width: 25,
+                }}
+              >
                 <div className="grid-delete">
                   <div
                     onClick={() => {
@@ -703,8 +709,15 @@ const MMMGrid = ({
                                     value: row[col.name],
                                   }}
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select",colIndex);
+                                    handleBlur(
+                                      x,
+                                      rowIndex,
+                                      col,
+                                      "select",
+                                      colIndex
+                                    );
                                   }}
+                                  menuPortalTarget={document.body}
                                 />
                               ) : col.selectType === "creatable" ? (
                                 <CreatableSelect
@@ -719,11 +732,18 @@ const MMMGrid = ({
                                       : rowDisabled(row) || disabled
                                   }
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select",colIndex);
+                                    handleBlur(
+                                      x,
+                                      rowIndex,
+                                      col,
+                                      "select",
+                                      colIndex
+                                    );
                                   }}
                                   id={`gridcell-${rowIndex}-${colIndex}`}
                                   isClearable
                                   options={col.selectOptions(row)}
+                                  menuPortalTarget={document.body}
                                 />
                               ) : (
                                 <Select
@@ -742,8 +762,15 @@ const MMMGrid = ({
                                       : rowDisabled(row) || disabled
                                   }
                                   onChange={(x: any) => {
-                                    handleBlur(x, rowIndex, col, "select",colIndex);
+                                    handleBlur(
+                                      x,
+                                      rowIndex,
+                                      col,
+                                      "select",
+                                      colIndex
+                                    );
                                   }}
+                                  menuPortalTarget={document.body}
                                 />
                               )}
                             </>
