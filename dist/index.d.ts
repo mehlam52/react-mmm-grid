@@ -30,7 +30,8 @@ type MMMGridProps = {
     rowDisabled?: (row: any) => boolean;
     setActiveGridRow?: any;
     setSelectedRows?: any;
+    enableSearch?: boolean;
 };
-declare const MMMGrid: ({ rows, columns, height, deleteRows, handleChange, handleDelete, disabled, rowDisabled, idPrefix, setActiveGridRow, setSelectedRows, }: MMMGridProps) => react_jsx_runtime.JSX.Element;
+declare const MMMGrid: ({ rows, columns, height, deleteRows, handleChange, handleDelete, disabled, rowDisabled, idPrefix, setActiveGridRow, setSelectedRows, enableSearch, }: MMMGridProps) => react_jsx_runtime.JSX.Element;
 
 export { type MMMGridColumnProps, MMMGrid as default };
