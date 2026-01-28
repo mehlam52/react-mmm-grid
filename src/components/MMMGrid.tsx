@@ -752,6 +752,7 @@ const MMMGrid = ({
                             <>
                               {col.selectType === "async" ? (
                                 <AsyncSelect
+                                    classNamePrefix="select"
                                   loadOptions={(
                                     inputValue: string,
                                     callBack: any
@@ -793,6 +794,7 @@ const MMMGrid = ({
                                     label: row[col.name],
                                     value: row[col.name],
                                   }}
+                                  classNamePrefix='select'
                                   // isDisabled={isDisabled || row.type == 'single'}
                                   isDisabled={
                                     col.disabled
